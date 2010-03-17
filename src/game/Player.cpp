@@ -1314,6 +1314,11 @@ void Player::Update( uint32 p_time )
         if (!m_regenTimer)
             RegenerateAll();
     }
+	
+	if (!isAlive() && !HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_GHOST))
+    {
+        SetHealth(0);
+    }
 
     if (m_deathState == JUST_DIED)
     {
