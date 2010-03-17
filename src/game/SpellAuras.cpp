@@ -2585,6 +2585,21 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
                 m_target->CastSpell(m_target, 47287, true, NULL, this);
                 return;
             }
+            case 44457:                                     // Living Bomb Rank 1
+            {
+                m_target->CastSpell(m_target,44461, false);	
+                return;
+            }
+            case 55359:                                     // Living Bomb Rank 2
+            {
+                m_target->CastSpell(m_target, 55361, false);	
+                return;
+            }
+            case 55360:                                     // Living Bomb Rank 3
+            {
+                m_target->CastSpell(m_target, 55362, false);
+                return;
+            }
             case 58600:                                     // Restricted Flight Area
             {
                 // Remove Flight Auras
