@@ -6923,6 +6923,17 @@ void Spell::EffectCharge(SpellEffectIndex /*eff_idx*/)
     // not all charge effects used in negative spells
     if (unitTarget != m_caster && !IsPositiveSpell(m_spellInfo->Id))
         m_caster->Attack(unitTarget, true);
+		
+    //Warbringer - remove movement imparing effects
+    Unit::AuraList const& auraClassScripts = m_caster->GetAurasByType(SPELL_AURA_OVERRIDE_CLASS_SCRIPTS);
+    for(Unit::AuraList::const_iterator itr = auraClassScripts.begin(); itr != auraClassScripts.end(); itr++)
+    {
+        if((*itr)->GetModifier()->m_miscvalue == 6953)
+        {
+            m_caster->RemoveAurasAtMechanicImmunity(IMMUNE_TO_ROOT_AND_SNARE_MASK,57499,true);
+            break;
+        }
+    }
 }
 
 void Spell::EffectCharge2(SpellEffectIndex /*eff_idx*/)
