@@ -268,7 +268,7 @@ bool Creature::InitEntry(uint32 Entry, uint32 team, const CreatureData *data )
     SetSpeedRate(MOVE_RUN,  cinfo->speed_run);
     SetSpeedRate(MOVE_SWIM, 1.0f);                          // using 1.0 rate
     SetSpeedRate(MOVE_FLIGHT, 1.0f);                        // using 1.0 rate
-    SetSpeedRate(MOVE_FLIGHT, cinfo->speed);
+    SetSpeedRate(MOVE_FLIGHT, cinfo->speed_walk);
 
     SetFloatValue(OBJECT_FIELD_SCALE_X, cinfo->scale);
 
@@ -1906,7 +1906,7 @@ float Creature::GetBaseSpeed() const
             }
         }
     }
-    return m_creatureInfo->speed;
+    return m_creatureInfo->speed_walk;
 }
 
 bool Creature::HasSpell(uint32 spellID) const

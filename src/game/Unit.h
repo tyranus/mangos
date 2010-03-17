@@ -1886,7 +1886,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         uint64  m_auraUpdateMask;
         uint64 m_vehicleGUID;
 
-        uint64 m_InteractionObject;
+        uint64 m_InteractionObject;		
 
     private:
         void CleanupDeletedAuras();
@@ -1924,8 +1924,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         ComboPointHolderSet m_ComboPointHolders;
 
         GuardianPetList m_guardianPets;
-
-        uint64 m_TotemSlot[MAX_TOTEM_SLOT];
+		
+		uint64 m_TotemSlot[MAX_TOTEM_SLOT];
 };
 
 template<typename Func>
