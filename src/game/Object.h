@@ -70,6 +70,7 @@ class Map;
 class UpdateMask;
 class InstanceData;
 class Vehicle;
+class GameObject;
 
 typedef UNORDERED_MAP<Player*, UpdateData> UpdateDataMapType;
 
@@ -477,6 +478,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
 
         Creature* SummonCreature(uint32 id, float x, float y, float z, float ang,TempSummonType spwtype,uint32 despwtime);
         Vehicle* SummonVehicle(uint32 id, float x, float y, float z, float ang, uint32 vehicleId = NULL);
+		GameObject* SummonGameobject(uint32 id, float x, float y, float z, float ang, uint32 despwTime);
 
     protected:
         explicit WorldObject();
