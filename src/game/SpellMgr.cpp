@@ -469,6 +469,9 @@ bool IsPositiveEffect(uint32 spellId, SpellEffectIndex effIndex)
 {
     SpellEntry const *spellproto = sSpellStore.LookupEntry(spellId);
     if (!spellproto) return false;
+	
+	if(spellproto->Id == 56266)
+        return false;
 
     switch(spellproto->Effect[effIndex])
     {
@@ -562,6 +565,9 @@ bool IsPositiveEffect(uint32 spellId, SpellEffectIndex effIndex)
                             }
                         }
                     }
+                    //Vortex
+                    if(spellproto->Id == 56266)
+                        return false;
                     break;
                 case SPELL_AURA_PROC_TRIGGER_SPELL:
                     // many positive auras have negative triggered spells at damage for example and this not make it negative (it can be canceled for example)
@@ -658,6 +664,11 @@ bool IsPositiveEffect(uint32 spellId, SpellEffectIndex effIndex)
                 }   break;
                 case SPELL_AURA_FORCE_REACTION:
                     if(spellproto->Id==42792)               // Recently Dropped Flag (prevent cancel)
+                        return false;
+                    break;
+                case SPELL_AURA_CONTROL_VEHICLE:
+                    //Vortex
+                    if(spellproto->Id == 56266)
                         return false;
                     break;
                 default:
