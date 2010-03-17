@@ -7401,22 +7401,32 @@ bool Unit::HandleProcTriggerSpell(Unit *pVictim, uint32 damage, Aura* triggeredB
                     return false;
                 trigger_spell_id = 37595;
             }
-            // Blessed Recovery
-            else if (auraSpellInfo->SpellIconID == 1875)
-            {
-                switch (auraSpellInfo->Id)
-                {
-                    case 27811: trigger_spell_id = 27813; break;
-                    case 27815: trigger_spell_id = 27817; break;
-                    case 27816: trigger_spell_id = 27818; break;
-                    default:
-                        sLog.outError("Unit::HandleProcTriggerSpell: Spell %u not handled in BR", auraSpellInfo->Id);
+        
+            switch(auraSpellInfo->SpellIconID)
+			{
+			    // Blessed Recovery
+			    case 1875:
+			    {
+	                switch (auraSpellInfo->Id)
+                    {
+                        case 27811: trigger_spell_id = 27813; break;
+                        case 27815: trigger_spell_id = 27817; break;
+                        case 27816: trigger_spell_id = 27818; break;
+                        default:
+                            sLog.outError("Unit::HandleProcTriggerSpell: Spell %u not handled in BR", auraSpellInfo->Id);
+                        return false;
+                    }
+                    basepoints[0] = damage * triggerAmount / 100 / 3;
+                    target = this;
+			    }
+				
+				// Body And Soul - prevent proc from any other except Power Word: Shield
+			    case 64127:
+			    case 64129:
+                    if (!(procSpell->SpellFamilyFlags & UI64LIT(0x0000000000000001)))
                     return false;
-                }
-                basepoints[0] = damage * triggerAmount / 100 / 3;
-                target = this;
+                    break;
             }
-            break;
         }
         case SPELLFAMILY_DRUID:
         {
