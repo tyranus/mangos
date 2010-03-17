@@ -7425,7 +7425,9 @@ bool Unit::HandleProcTriggerSpell(Unit *pVictim, uint32 damage, Aura* triggeredB
 			    case 64129:
                     if (!(procSpell->SpellFamilyFlags & UI64LIT(0x0000000000000001)))
                     return false;
-                    break;
+				
+				default:
+				    break;
             }
         }
         case SPELLFAMILY_DRUID:
@@ -7694,6 +7696,12 @@ bool Unit::HandleProcTriggerSpell(Unit *pVictim, uint32 damage, Aura* triggeredB
                     return false;
                 basepoints[0] = triggerAmount * damage / 100;
                 trigger_spell_id = 50475;
+            }
+            // Glyph of Death's Embrace
+            else if (auraSpellInfo->Id == 58677)
+            {
+                if (procSpell->Id != 47633)
+                    return false;
             }
             break;
         }
