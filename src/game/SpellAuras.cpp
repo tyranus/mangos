@@ -6598,21 +6598,10 @@ void Aura::HandleSpellSpecificBoosts(bool apply)
             {
                 if(!apply)
                 {
-                    Unit* caster = GetCaster();
-                    if(!caster)
-                        return;
-
-                    Unit::AuraList const& dummyAuras = caster->GetAurasByType(SPELL_AURA_DUMMY);
-                    for(Unit::AuraList::const_iterator itr = dummyAuras.begin(); itr != dummyAuras.end(); ++itr)
-                    {
-                        // Glyph of Freezing Trap
-                        if ((*itr)->GetSpellProto()->Id == 56845)
-                        {
-                            cast_at_remove = true;
-                            spellId1 = 61394;
-                            break;
-                        }
-                    }
+                    // Glyph of Freezing Trap
+                    if (Unit *caster = GetCaster())
+                        if (caster->HasAura(56845))
+                            m_target->CastSpell(m_target, 61394, true, NULL, this, GetCasterGUID());
                 }
                 else
                     return;
