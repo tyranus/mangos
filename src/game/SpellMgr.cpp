@@ -3017,9 +3017,24 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
     // - with SPELL_ATTR_EX4_NOT_USABLE_IN_ARENA flag
     // - with greater than 15 min CD
     if ((spellInfo->AttributesEx4 & SPELL_ATTR_EX4_NOT_USABLE_IN_ARENA) ||
-         (GetSpellRecoveryTime(spellInfo) > 15 * MINUTE * IN_MILISECONDS && !(spellInfo->AttributesEx4 & SPELL_ATTR_EX4_USABLE_IN_ARENA)))
+         (GetSpellRecoveryTime(spellInfo) > 10 * MINUTE * IN_MILISECONDS && !(spellInfo->AttributesEx4 & SPELL_ATTR_EX4_USABLE_IN_ARENA)))
         if (player && player->InArena())
             return SPELL_FAILED_NOT_IN_ARENA;
+						
+	// Spells removidos da arena (bloodarena)
+	if (player && player->InArena())
+	{
+	    switch(spellInfo->Id)
+		{
+            case 7328:	case 10322:	case 10324:
+			case 20772:	case 20773:	case 48949:
+			case 48950: // Redemption all ranks
+			case 50769:	case 50768:	case 50767:
+			case 50766:	case 50765:	case 50764:
+			case 50763: // Revive all ranks
+			return SPELL_FAILED_NOT_IN_ARENA;
+	    }
+    }
 
     // Spell casted only on battleground
     if ((spellInfo->AttributesEx3 & SPELL_ATTR_EX3_BATTLEGROUND))
