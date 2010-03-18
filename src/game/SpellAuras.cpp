@@ -8114,8 +8114,12 @@ void Aura::PeriodicDummyTick()
         case SPELLFAMILY_MAGE:
         {
             // Mirror Image
-//            if (spell->Id == 55342)
-//                return;
+            if (spell->Id == 55342)
+            {
+                // Set name of summons to name of caster
+                m_target->CastSpell(m_target, m_spellProto->EffectTriggerSpell[m_effIndex], true);
+                m_isPeriodic = false;
+            }
             break;
         }
         case SPELLFAMILY_DRUID:
@@ -8616,4 +8620,53 @@ void Aura::HandleAllowOnlyAbility(bool apply, bool Real)
     m_target->UpdateDamagePhysical(BASE_ATTACK);
     m_target->UpdateDamagePhysical(RANGED_ATTACK);
     m_target->UpdateDamagePhysical(OFF_ATTACK);
+}
+
+void Aura::HandleAuraInitializeImages(bool Apply, bool Real)
+{
+    if (!Real || !Apply || !m_target || m_target->GetTypeId() != TYPEID_UNIT)
+        return;
+    Unit* caster = GetCaster();
+    Unit* creator = Unit::GetUnit(*m_target,m_target->GetCreatorGUID());
+    Creature* pImmage = (Creature*)m_target;
+    if (!creator || !caster || creator != caster || pImmage->isPet())
+        return;
+
+    // set stats and visual
+    pImmage->SetDisplayId(creator->GetDisplayId());
+    //pImmage->SetLevel(creator->getLevel());
+    pImmage->SetMaxHealth(creator->GetMaxHealth()/5);
+    pImmage->SetHealth(creator->GetHealth()/2);
+    pImmage->SetMaxPower(POWER_MANA, creator->GetMaxPower(POWER_MANA));
+    pImmage->SetPower(POWER_MANA, creator->GetPower(POWER_MANA));
+    pImmage->setFaction(creator->getFaction());
+    pImmage->SetUInt32Value(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_UNK2 | UNIT_FLAG2_REGENERATE_POWER);
+    if (creator->IsPvP())
+	{
+	  pImmage->SetPvP(true);
+    }
+	if (creator->isInCombat() && pImmage->isAlive())
+    {
+	pImmage->CastSpell(pImmage, 58838, true);
+    }
+	  else
+    {
+       pImmage->GetMotionMaster()->Clear();
+       pImmage->GetMotionMaster()->MoveFollow(creator, pImmage->GetDistance(creator), pImmage->GetAngle(creator));
+    }
+}
+
+void Aura::HandleAuraCloneCaster(bool Apply, bool Real)
+{
+    error_log("HandleAuraCloneCaster");
+    if (!Real || !Apply)
+        return;
+
+    Unit * caster = GetCaster();
+    if (!caster)
+        return;
+
+    // Set item visual
+    m_target->SetDisplayId(caster->GetDisplayId());
+    m_target->SetUInt32Value(UNIT_FIELD_FLAGS_2, 2064);
 }
